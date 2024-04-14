@@ -4,44 +4,44 @@ For learning and testing the performance of [object tracking using the Ultralyti
 
 ## Table of Contents
 - [Suggested Tools](#suggested-tools)
-- [Version and Package Managers](#version-and-package-managers)
-- [Virtual Environment Creation and Activation](#virtual-environment-creation-and-activation)
+    1. [Version Manager](#version-manager)
+    2. [Virtual Environment Creation and Activation](#virtual-environment-creation-and-activation)
+    3. [Install Dependencies](#install-dependencies)
 - [Usage](#usage)
 - [Explanation](#explanation)
 
 ## Suggested Tools
-The [official tool set](https://packaging.python.org/en/latest/guides/tool-recommendations/) does not support version management. As a result, teams on different operating systems and devices will encounter interpreter version conflicts (e.g., dependency works on one device but not on another).
+The [official tool set](https://packaging.python.org/en/latest/guides/tool-recommendations/) does not support version management. As a result, teams on different operating systems and devices will encounter interpreter version conflicts (e.g., dependencies that work on one device but not on others).
 
 This section offers a solution for managing virtual environments, Python interpreter versions, packages, and package indexes across various devices and operating systems. 
 
 
-A typical setup includes a [virtual environment](https://packaging.python.org/en/latest/glossary/#term-Virtual-Environment), [version manager](https://packaging.python.org/en/latest/guides/tool-recommendations/), and one or more package managers (like [pip](https://pip.pypa.io/en/stable/) or [conda](https://packaging.python.org/en/latest/key_projects/#conda)) to access [package indexes](https://packaging.python.org/en/latest/glossary/#term-Package-Index) that contain downloadable [packages](https://packaging.python.org/en/latest/overview/).
+A typical setup includes a [version manager](https://packaging.python.org/en/latest/guides/tool-recommendations/), [virtual environment](https://packaging.python.org/en/latest/glossary/#term-Virtual-Environment), and one or more package managers (like [pip](https://pip.pypa.io/en/stable/) or [conda](https://packaging.python.org/en/latest/key_projects/#conda)) to access [package indexes](https://packaging.python.org/en/latest/glossary/#term-Package-Index) that contain downloadable [packages](https://packaging.python.org/en/latest/overview/).
 
-### Windows, MacOS, and *Nix ✅
+### 1. Version Manager
 
-Using the version manager [miniconda](https://docs.anaconda.com/free/miniconda/index.html) and package manager [conda](https://packaging.python.org/en/latest/key_projects/#conda) ensures a reliable and consistent environment setup across different operating systems. It works well in conjunction with [pip](https://pip.pypa.io/en/stable/), allowing you to easily install and manage packages from various package indexes.
+#### Windows, MacOS, and *Nix ✅
 
-### Raspberry Pi ✅
+Version manager [miniconda](https://docs.anaconda.com/free/miniconda/index.html) and package manager [conda](https://packaging.python.org/en/latest/key_projects/#conda) ensures a reliable and consistent environment setup across different operating systems. It works well in conjunction with [pip](https://pip.pypa.io/en/stable/), allowing you to easily install and manage packages from various package indexes. [Miniconda installation instructions](https://docs.anaconda.com/free/miniconda/index.html#quick-command-line-install).
+
+#### Raspberry Pi ✅
 Miniconda is not officially supported, despite the apparent availability of aarch-64 installers with every update. [Miniforge](https://github.com/conda-forge/miniforge) has proven to be an effective alternative on Raspberry Pi 4 Bookworm OS. [Installation instructions](https://github.com/conda-forge/miniforge/?tab=readme-ov-file#install).
 
-### Official Tool Stack ❌
-Manual version management can be performed if multiple versions of python are installed on a local system by specifying a python interpreter version while [creating a new virtual environment](https://packaging.python.org/en/latest/tutorials/installing-packages/#creating-virtual-environments) with [venv](https://packaging.python.org/en/latest/key_projects/#venv) or [virtualenv](https://packaging.python.org/en/latest/key_projects/). This method only includes pip, which limits package index to [PyPI](https://packaging.python.org/en/latest/glossary/#term-Python-Package-Index-PyPI) soley.
+#### Official Tool Stack ❌
+Manual version management can be performed if multiple versions of python are installed on a local system by specifying a python interpreter version while [creating a new virtual environment](https://packaging.python.org/en/latest/tutorials/installing-packages/#creating-virtual-environments) with [venv](https://packaging.python.org/en/latest/key_projects/#venv) or [virtualenv](https://packaging.python.org/en/latest/key_projects/). This method only includes pip, which limits package index to [PyPI](https://packaging.python.org/en/latest/glossary/#term-Python-Package-Index-PyPI) solely.
 
-
-
-
-## Virtual Environment Creation and Activation
+### 2. Virtual Environment Creation and Activation
 ```bash
 conda create -n .minienv python=3.11 -y
 ```
 ```bash
 conda activate .minienv
 ```
-### ~/.bashrc Script Settings
+#### ~/.bashrc Settings
 
-Add quick note on `~/.bashrc` configuration, as miniconda installation may have inadvertently made some settings in bash.
+TODO: Add quick note on miniconda installation, as it may have inadvertently made some settings in `~/.bashrc`.
 
-### VSCode Automatic Interpreter Selection and Activation Setting
+#### VSCode Automatic Interpreter Selection and Activation Setting
 Automatically activate the new virtual environment's python interpreter with vscode settings. 
 
 Note: the following are commands for windows command line, not bash shell.
@@ -53,7 +53,7 @@ source venv/bin/activate
 mkdir -p .vscode && echo '{"python.pythonPath": "venv/Scripts/python.exe"}' > .vscode/settings.json
 ```
 
-## Install Dependencies
+### 3. Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
