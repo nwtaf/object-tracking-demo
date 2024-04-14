@@ -1,4 +1,9 @@
-'''This script uses the Ultralytics YOLOv8 model to perform object detection on a video file, and then tracks the detected objects across frames. The script records the processing times for each frame, and creates graphs of the processing times and confidence values over time. The script uses the 'bytetrack.yaml' tracker configuration file, which is optimized for tracking objects across frames. The script saves the graphs to the 'data/graphs' directory.'''
+'''
+This script uses the Ultralytics YOLOv8 model to perform object detection on a video file, and then tracks the detected objects across frames. 
+The script records the processing times for each frame, and creates graphs of the processing times and confidence values over time. 
+The script uses a specified tracker configuration file, which is optimized for tracking objects across frames. 
+The script saves the graphs to the 'data/graphs' directory.
+'''
 import cv2
 from ultralytics import YOLO
 import matplotlib.pyplot as plt
@@ -23,12 +28,12 @@ postprocess_time_list = []
 total_processing_time_list = []
 confidence_list = []
 
-# Open the video file or camera
+# Open the video file or camera 0
 cap = cv2.VideoCapture(video_path)
 
 if not cap.isOpened():
         raise ValueError("Failed to open the video path or capture device")
-print('video path successfully loaded')
+print('Video path successfully loaded')
 
 # Loop through the video frames
 while cap.isOpened():
@@ -38,8 +43,7 @@ while cap.isOpened():
         # Run YOLOv8 tracking on the frame, persisting tracks between frames.
         results = model.track(source=frame, persist=True, classes=[0], tracker=str(f'{tracker}.yaml'), verbose=False)
 
-        # Access the returned results object 
-        # https://docs.ultralytics.com/reference/engine/results/#ultralytics.engine.results.Boxes
+        # Access the returned results object; https://docs.ultralytics.com/reference/engine/results/#ultralytics.engine.results.Boxes
         # conf_temp = results[0].boxes.conf # class values
         # cls_temp = results[0].boxes.cls # confidence values
         id_temp = results[0].boxes.id # track IDs (if available)
@@ -54,15 +58,11 @@ while cap.isOpened():
         frame_count += 1
        
         # Visualize the results on the frame
-        annotated_frame = cm.plot_center_on_frame(frame, cm.extract_center_coordinates(xywh_temp, id_temp, 1))
-        annotated_frame = cm.resize_frame(annotated_frame, 640)
-        annotated_frame = results[0].plot()
-
-        # Display the annotated frame
-        cv2.imshow("YOLOv8 Tracking", annotated_frame)
+        annotated_frame = cm.plot_center_on_frame(results[0].plot(), cm.extract_center_coordinates(xywh_temp, id_temp, 1))
+        cv2.imshow("YOLOv8 Tracking", cm.resize_frame(annotated_frame, 640))
 
         # Break the loop if 'q' is pressed or if the display window is closed
-        if cv2.waitKey(0) # & 0xFF == ord("q") or cv2.getWindowProperty("YOLOv8 Tracking", cv2.WND_PROP_VISIBLE) < 1:
+        if cv2.waitKey(1) & 0xFF == ord("q") or cv2.getWindowProperty("YOLOv8 Tracking", cv2.WND_PROP_VISIBLE) < 1:
             break
     else:
         # Break the loop if the end of the video is reached
@@ -71,9 +71,9 @@ while cap.isOpened():
 cap.release()
 cv2.destroyAllWindows()
 
-path = Path("data/graphs/")
-if not path.exists():
-    path.mkdir(parents=True)
+# path = Path("data/graphs/")
+# if not path.exists():
+#     path.mkdir(parents=True)
 
 # Calculate some averages
 average_total_processing_time = np.mean(total_processing_time_list[1:])

@@ -1,2 +1,7 @@
+# dependencies for object tracking
 ultralytics
 lapx>=0.5.2
+
+# dependencies for youtube download tools
+moviepy
+pytube

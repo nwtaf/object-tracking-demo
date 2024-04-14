@@ -15,7 +15,7 @@ def extract_center_coordinates(xywh_temp, id_temp, desired_track_id):
     for track_id, box in zip(id_temp, xywh_temp):
         if track_id == desired_track_id:
             center_x, center_y, width, height = box
-            print(f'desired_track_id: {desired_track_id}, center_x: {center_x}, center_y: {center_y}, width: {width}, height: {height}')
+            # print(f'desired_track_id: {desired_track_id}, center_x: {center_x}, center_y: {center_y}, width: {width}, height: {height}')
             center_x = int(center_x)
             center_y = int(center_y)
             return (center_x, center_y)
@@ -33,7 +33,7 @@ def plot_center_on_frame(frame, center_coordinates):
         The modified frame with the center coordinates plotted.
     """
     # Plot the center on the image
-    radius = 10  # Radius of the circle
+    radius = 10 # Radius of the circle
     color = (0, 255, 0)  # Red color
     thickness = -1  # Thickness
     frame = cv2.circle(frame, (center_coordinates), radius, color, thickness)
