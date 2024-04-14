@@ -3,35 +3,48 @@
 For learning and testing the performance of [object tracking using the Ultralytics implementation of YOLOv8](https://docs.ultralytics.com/modes/track/#tracking) (You Only Look Once) real-time object detection system. 
 
 ## Table of Contents
-- [Requirements](#requirements)
-    - [Version and Package Managers](#version-and-package-managers)
-    - [Virtual Environment Activation](#virtual-environment-activation)
+- [Suggested Tools](#suggested-tools)
+- [Version and Package Managers](#version-and-package-managers)
+- [Virtual Environment Creation and Activation](#virtual-environment-creation-and-activation)
 - [Usage](#usage)
-- [Explaination](#explaination)
+- [Explanation](#explanation)
 
-## Requirements
-### Version and Package Managers
+## Suggested Tools
+The [official tool set](https://packaging.python.org/en/latest/guides/tool-recommendations/) does not support version management. As a result, teams on different operating systems and devices will encounter interpreter version conflicts (e.g., dependency works on one device but not on another).
 
-*Robust and Recommended Route:*
-#### Windows, MacOS, and *Nix
+This section offers a solution for managing virtual environments, Python interpreter versions, packages, and package indexes across various devices and operating systems. 
 
-Use [miniconda](https://docs.anaconda.com/free/miniconda/index.html) installer for the version and package manager [conda](https://packaging.python.org/en/latest/key_projects/#conda). Works well in conjunction with pip. 
 
-#### Raspberry Pi:
-- Miniconda is not officially supported on raspberry pi, despite the apparent availability of aarch-64 installers with every update. Instead, refer to [miniforge](https://github.com/conda-forge/miniforge) for raspberry pi installation. Miniforge has been tested and works with raspberry pi 4 Bookworm OS as of April 2024. [Installation Instructions](https://github.com/conda-forge/miniforge/?tab=readme-ov-file#install)
+A typical setup includes a [virtual environment](https://packaging.python.org/en/latest/glossary/#term-Virtual-Environment), [version manager](https://packaging.python.org/en/latest/guides/tool-recommendations/), and one or more package managers (like [pip](https://pip.pypa.io/en/stable/) or [conda](https://packaging.python.org/en/latest/key_projects/#conda)) to access [package indexes](https://packaging.python.org/en/latest/glossary/#term-Package-Index) that contain downloadable [packages](https://packaging.python.org/en/latest/overview/).
 
-*Difficult Route:*
+### Windows, MacOS, and *Nix ✅
 
-Use package manager [pip](https://pip.pypa.io/en/stable/) with [version managers](https://packaging.python.org/en/latest/guides/tool-recommendations/) like [venv](https://packaging.python.org/en/latest/key_projects/#venv) or [virtualenv](https://packaging.python.org/en/latest/key_projects/#virtualenv) to access [package index](https://packaging.python.org/en/latest/glossary/#term-Package-Index) [PyPI](https://packaging.python.org/en/latest/glossary/#term-Python-Package-Index-PyPI).
+Using the version manager [miniconda](https://docs.anaconda.com/free/miniconda/index.html) and package manager [conda](https://packaging.python.org/en/latest/key_projects/#conda) ensures a reliable and consistent environment setup across different operating systems. It works well in conjunction with [pip](https://pip.pypa.io/en/stable/), allowing you to easily install and manage packages from various package indexes.
 
-### Virtual Environment Activation
-#### Conda, Miniconda, Miniforge
+### Raspberry Pi ✅
+Miniconda is not officially supported, despite the apparent availability of aarch-64 installers with every update. [Miniforge](https://github.com/conda-forge/miniforge) has proven to be an effective alternative on Raspberry Pi 4 Bookworm OS. [Installation instructions](https://github.com/conda-forge/miniforge/?tab=readme-ov-file#install).
+
+### Official Tool Stack ❌
+Manual version management can be performed if multiple versions of python are installed on a local system by specifying a python interpreter version while [creating a new virtual environment](https://packaging.python.org/en/latest/tutorials/installing-packages/#creating-virtual-environments) with [venv](https://packaging.python.org/en/latest/key_projects/#venv) or [virtualenv](https://packaging.python.org/en/latest/key_projects/). This method only includes pip, which limits package index to [PyPI](https://packaging.python.org/en/latest/glossary/#term-Python-Package-Index-PyPI) soley.
+
+
+
+
+## Virtual Environment Creation and Activation
 ```bash
-conda create -n minienv python=3.11 -y
+conda create -n .minienv python=3.11 -y
 ```
+```bash
+conda activate .minienv
+```
+### ~/.bashrc Script Settings
 
-#### VSCode Setting
-This makes it so that it activates every time, but these are windows command line instructions for venv named venv.
+Add quick note on `~/.bashrc` configuration, as miniconda installation may have inadvertently made some settings in bash.
+
+### VSCode Automatic Interpreter Selection and Activation Setting
+Automatically activate the new virtual environment's python interpreter with vscode settings. 
+
+Note: the following are commands for windows command line, not bash shell.
 ```bash
 source venv/bin/activate
 ```
@@ -40,32 +53,45 @@ source venv/bin/activate
 mkdir -p .vscode && echo '{"python.pythonPath": "venv/Scripts/python.exe"}' > .vscode/settings.json
 ```
 
-#### Install Dependencies
-Ultralytics comes with many dependencies, including bytetrack and botsort.
+## Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
 ## Usage
-
-To run the script, simply execute the following command:
-
+To explore object detection with ultralytics YOLOv8, run the following command:
 ```bash
-python3 yolov8_practice.py
+python custom_module.py
+```
+To generate graphs for testing and benchmarking purposes, simply execute the following command:
+```bash
+python yolov8_demo.py
 ```
 
-## Explaination
+## YOLOv8 Demo Explanation
 
-1. **Imports and Initializations**: Import necessary libraries and initialize the YOLO model and tracker. Set up video source for processing.
+1. **Imports and Initializations**
 
-2. **Video Processing**: The script opens the video file using OpenCV's `cv2.VideoCapture` function and loops through each frame. For each frame, it runs the YOLO model's `track` method to detect and track objects in the frame. 
+    Import necessary libraries and initialize the YOLO model and tracker. Set up video source. Many functions are defined in custom_module.py. 
+
+2. **Video Processing**: 
+
+    The script opens the video file using OpenCV's `cv2.VideoCapture` function and loops through each frame. For each frame, it runs the YOLO model's `track` method to detect and track objects in the frame. 
 
 3. **Working with Results**
-- [Prediction Boxes](https://docs.ultralytics.com/modes/predict/#boxes) [results.boxes reference](https://docs.ultralytics.com/reference/engine/results/#ultralytics.engine.results.Boxes)
-- Store object `results` (class) properties in temporary variables that are updated with each iteration (new frame).
-- Note, Index [0] refers to the first predicted image, but in this case, model.track is passed one frame per iteration, so only [0] values of object results is needed. It records the preprocessing, inference, and postprocessing times for each frame, as well as the total processing time and the confidence of the detection.
 
-3. **Live Visualization**: The script then visualizes the results by plotting the detected objects on the frame and displaying the annotated frame in a window.
+    Store object `results` (class) properties in temporary variables that are updated with each iteration (new frame).
+    - [prediction boxes reference](https://docs.ultralytics.com/modes/predict/#boxes) 
+    - [results.boxes reference](https://docs.ultralytics.com/reference/engine/results/#ultralytics.engine.results.Boxes)
 
-4. **Results**: After processing the video, the script calculates the average total processing time and average confidence over all frames, and prints these values. It also creates two graphs: one showing the various processing times versus the frame number, and another showing the confidence versus the frame number. These graphs are saved as PNG files in the 'data/graphs/' directory.
-# TODO add the following comments to the main code, make module with functions for annotating and showing frame and graphing.
+    Note, index [0] refers to the first predicted image, but in this case, model.track is passed one frame per loop iteration, so only [0] values of object results will be needed. 
+
+3. **Live Visualization**
+
+    The script then visualizes the results by plotting the detected objects on the frame, resizing the frame and displaying the annotated frame in a window.
+
+4. **Graphs**
+
+    After processing the video, the script calculates the average total processing time and average confidence over all frames, and prints these values. It also saves two graphs:  
+    - `data/graphs/{tracker}_total_processing_times_graph.png`
+    - `data/graphs/{tracker}_confidence_graph.png`

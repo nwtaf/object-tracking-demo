@@ -4,4 +4,6 @@ __pycache__
 data/*.mp4
 data/graphs/*
 
+.vscode/*
+
 *.pt
