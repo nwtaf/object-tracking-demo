@@ -70,7 +70,7 @@ mkdir -p .vscode && echo '{"python.pythonPath": "venv/Scripts/python.exe"}' > .v
 ### 3. Install Dependencies
 Install packages with conda but use pip if package is not in conda.
 ```bash
-conda install -r requirements.txt || pip install -r requirements.txt
+conda install -requirements.txt || pip install -r requirements.txt
 ```
 
 ## Usage

@@ -12,7 +12,7 @@ import numpy as np
 import custom_module as cm
 
 model = YOLO('yolov8n.pt') # load model
-tracker = 'bytetrack' # 'botsort.yaml' 
+tracker = 'bytetrack' # 'botsort' 
 video_path = 'data/hike.mp4' # 0
 
 # Initialize variables
@@ -71,10 +71,6 @@ while cap.isOpened():
 cap.release()
 cv2.destroyAllWindows()
 
-# path = Path("data/graphs/")
-# if not path.exists():
-#     path.mkdir(parents=True)
-
 # Calculate some averages
 average_total_processing_time = np.mean(total_processing_time_list[1:])
 average_confidence = np.mean(confidence_list[1:])
@@ -87,9 +83,15 @@ plt.plot(range(1, frame_count), total_processing_time_list[1:], label='Total Pro
 plt.plot(range(1, frame_count), preprocess_time_list[1:], label='Preprocess Time')
 plt.plot(range(1, frame_count), inference_time_list[1:], label='Inference Time')
 plt.plot(range(1, frame_count), postprocess_time_list[1:], label='Postprocess Time')
+
+# # Create the directory if it doesn't exist
+# path = Path("data/graphs/bookworm8GB/")
+# if not path.exists():
+#     path.mkdir(parents=True)
+
 plt.xlabel('Frames')
 plt.ylabel('Processing Times')
-plt.title(f'{tracker}: Processing Times vs Frames')
+plt.title(f'{tracker.capitalize()}: Processing Times vs Frames')
 plt.legend()
 plt.savefig(f'data/graphs/{tracker}_total_processing_times_graph.png')
 plt.close()
@@ -99,7 +101,7 @@ plt.figure()
 plt.plot(range(1, frame_count), confidence_list[1:], label='Confidence')
 plt.xlabel('Frames')
 plt.ylabel('Confidence')
-plt.title(f'{tracker}: Tracking Confidence vs Frames')
+plt.title(f'{tracker.capitalize()}: Tracking Confidence vs Frames')
 plt.legend()
 plt.savefig(f'data/graphs/{tracker}_confidence_graph.png')
 plt.close()
