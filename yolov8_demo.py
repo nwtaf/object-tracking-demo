@@ -12,7 +12,7 @@ import numpy as np
 import custom_module as cm
 
 model = YOLO('yolov8n.pt') # load model
-tracker = 'bytetrack' # 'botsort' 
+tracker = 'botsort' # 'bytetrack' 
 video_path = 'data/hike.mp4' # 0
 
 # Initialize variables
