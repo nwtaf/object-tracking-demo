@@ -39,23 +39,38 @@ conda activate .minienv
 ```
 #### ~/.bashrc Settings
 
-TODO: Add quick note on miniconda installation, as it may have inadvertently made some settings in `~/.bashrc`.
+If miniconda has been installed, `conda init` appended a conda initialization script to the bottom of `~/.bashrc`. See `conda init -h` for more info. 
+
+If bash shell starts with the Conda `(base)` environment activated:
+```bash
+conda config --set auto_activate_base false
+```
+
+Then, restart shell or open a new terminal window for the changes to take effect.
 
 #### VSCode Automatic Interpreter Selection and Activation Setting
 Automatically activate the new virtual environment's python interpreter with vscode settings. 
 
-Note: the following are commands for windows command line, not bash shell.
+Bash:
+
+```bash
+mkdir -p .vscode && echo '{"python.pythonPath": "/home/pi/miniforge3/envs/.minienv/bin/python"}' > .vscode/settings.json
+```
+
+Windows command line with virtual environment from venv named 'venv':
 ```bash
 source venv/bin/activate
 ```
 
-```bash
+```cmd
 mkdir -p .vscode && echo '{"python.pythonPath": "venv/Scripts/python.exe"}' > .vscode/settings.json
 ```
 
+
 ### 3. Install Dependencies
+Install packages with conda but use pip if package is not in conda.
 ```bash
-pip install -r requirements.txt
+conda install -r requirements.txt || pip install -r requirements.txt
 ```
 
 ## Usage
